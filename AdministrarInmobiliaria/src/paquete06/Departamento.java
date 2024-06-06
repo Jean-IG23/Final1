@@ -1,17 +1,13 @@
 package paquete06;
 
+import java.io.Serializable;
 import paquete02.Propietario;
 import paquete03.Barrio;
-import paquete04.Ciudad;
-import paquete05.Constructora;
 
-import java.io.Serializable;
-
-public class Departamento implements Serializable{
+public class Departamento  implements Serializable{
     private Propietario propietario;
     private Barrio barrio;
-    private Ciudad ciudad;
-    private Constructora constructora;
+    
     private double precioMetroCuadrado;
     private double numeroMetrosCuadrado;
     private double valorMensual;
@@ -19,101 +15,101 @@ public class Departamento implements Serializable{
     private String nombreEdificio;
     private String ubicacionDepartamento;
 
-    public Departamento(String identificacionPropietario, String nombreBarrio, String nombreCiudad, String idEmpresaConstructora, String ciudad, String empresaConstructora, double metrosCuadrados, double precioMetroCuadrado, double valorAlicuotaMensual) {
+    public Departamento (Propietario propietario, Barrio barrio, double precioMetroCuadrado, double numeroMetrosCuadrado, double valorMensual, 
+            String nombreEdificio, String ubicacionDepartamento) {
         this.propietario = propietario;
         this.barrio = barrio;
-        this.ciudad = this.ciudad;
-        this.constructora = constructora;
-        this.precioMetroCuadrado = this.precioMetroCuadrado;
+        this.precioMetroCuadrado = precioMetroCuadrado;
         this.numeroMetrosCuadrado = numeroMetrosCuadrado;
         this.valorMensual = valorMensual;
-        this.costoFinal = costoFinal;
         this.nombreEdificio = nombreEdificio;
         this.ubicacionDepartamento = ubicacionDepartamento;
     }
 
-    public Propietario getPropietario() {
-        return propietario;
-    }
-
-    public void setPropietario(Propietario propietario) {
+    public void establecerPropietario(Propietario propietario) {
         this.propietario = propietario;
     }
 
-    public Barrio getBarrio() {
-        return barrio;
-    }
-
-    public void setBarrio(Barrio barrio) {
-        this.barrio = barrio;
-    }
-
-    public Ciudad getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(Ciudad ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public Constructora getConstructora() {
-        return constructora;
-    }
-
-    public void setConstructora(Constructora constructora) {
-        this.constructora = constructora;
-    }
-
-    public double getPrecioMetroCuadrado() {
-        return precioMetroCuadrado;
-    }
-
-    public void setPrecioMetroCuadrado(double precioMetroCuadrado) {
+    public void establaecerPrecioMetroCuadrado(double precioMetroCuadrado) {
         this.precioMetroCuadrado = precioMetroCuadrado;
     }
 
-    public double getNumeroMetrosCuadrado() {
-        return numeroMetrosCuadrado;
-    }
-
-    public void setNumeroMetrosCuadrado(double numeroMetrosCuadrado) {
+    public void establecerNumeroMetrosCuadrado(double numeroMetrosCuadrado) {
         this.numeroMetrosCuadrado = numeroMetrosCuadrado;
     }
 
-    public double getValorMensual() {
-        return valorMensual;
-    }
-
-    public void setValorMensual(double valorMensual) {
+    public void establecertValorMensual(double valorMensual) {
         this.valorMensual = valorMensual;
     }
 
-    public double getCostoFinal() {
-        return costoFinal;
+    public void calcularCostoFinal() {
+        this.costoFinal = (numeroMetrosCuadrado * precioMetroCuadrado) + (valorMensual * 12) * 5;
     }
 
-    public void setCostoFinal(double costoFinal) {
-        this.costoFinal = costoFinal;
+    public void establecerBarrio(Barrio barrio) {
+        this.barrio = barrio;
     }
 
-    public String getNombreEdificio() {
-        return nombreEdificio;
-    }
-
-    public void setNombreEdificio(String nombreEdificio) {
+    public void establecerNombreEdificio(String nombreEdificio) {
         this.nombreEdificio = nombreEdificio;
     }
 
-    public String getUnicacionDepartamento() {
+    public void establecerUbicacionDepartamento(String ubicacionDepartamento) {
+        this.ubicacionDepartamento = ubicacionDepartamento;
+    }
+
+    public Propietario obtenerPropietario() {
+        return propietario;
+    }
+
+    public double obtenerPrecioMetroCuadrado() {
+        return precioMetroCuadrado;
+    }
+
+    public double obtenerNumeroMetrosCuadrado() {
+        return numeroMetrosCuadrado;
+    }
+
+    public double obtenerValorMensual() {
+        return valorMensual;
+    }
+
+    public double obtenerCostoFinal() {
+        return costoFinal;
+    }
+
+    public Barrio obtenerBarrio() {
+        return barrio;
+    }
+
+    public String obtenerNombreEdificio() {
+        return nombreEdificio;
+    }
+
+    public String obtenerUbicacionDepartamento() {
         return ubicacionDepartamento;
     }
-
-    public void setUnicacionDepartamento(String unicacionDepartamento) {
-        this.ubicacionDepartamento = unicacionDepartamento;
-    }
-
-    public void calcularPrecioFinal () {
-        this.costoFinal = getNumeroMetrosCuadrado() * getPrecioMetroCuadrado();
+    
+    @Override
+    public String toString() {
+      String cadena;
+     cadena = String.format("Departamento:\n"
+                 + "Propietario: %s- %s- %s\n"
+                 + "Precio por metro cuadrado: %.2f\n"
+                 + "Número de metros cuadrados: %.2f\n"
+                 + "Valor de la alícuota mensual: %.2f\n"
+                 + "Barrio: %s\n"
+                 + "Nombre del edificio: %s\n"
+                 + "Ubicación en el edificio: %s\n"
+                 + "Costo Final: %.2f\n",
+                propietario.obtenerNombres(), propietario.obtenerApellidos(), propietario.obtenerIdentificacion(),
+                precioMetroCuadrado,
+                numeroMetrosCuadrado,
+                valorMensual,
+                barrio.obtenerNombreBarrio(),
+                nombreEdificio,
+                ubicacionDepartamento,
+                costoFinal);
+        return cadena;
     }
 }
-
