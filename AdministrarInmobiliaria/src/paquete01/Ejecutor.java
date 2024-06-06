@@ -66,15 +66,15 @@ public class Ejecutor {
 
                     
                 case 8:
-                    verCiudades(cadenaCiudad);
+  
                     break;
                 case 9:
-                    verCasas(cadenaCasas);
+        
                     break;
                 case 10:
-                    verDepartamentos(cadenaDepartamentos);
+               
                     break;
-                case 11:
+                case 0:
                     b = false;
                     break;
                 default:
