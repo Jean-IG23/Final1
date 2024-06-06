@@ -1,20 +1,28 @@
-package paquete01;
 
+import java.util.ArrayList;
+import java.util.Scanner;
 import paquete02.Propietario;
 import paquete03.Barrio;
 import paquete04.Ciudad;
-import paquete05.Constructora;
 import paquete06.Casa;
-import paquete06.Departamento;
-import paquete07.Inmobiliaria;
-import java.util.Scanner;
+import paquete07.EscrituraPropietario;
+import paquete07.
 
+import paquete07.EscrituraBarrio;
+import paquete07.EscrituraCiudad;
+import paquete07.LecturaBarrio;
+import paquete07.LecturaCiudad;
+import paquete07.LecturaPropietario;
 public class Ejecutor {
     private static Scanner sc = new Scanner(System.in);
-    private static Inmobiliaria inmobiliaria = new Inmobiliaria();
 
-    public static void main(String[] args)  {
-
+    public static void main(String[] args) {
+        String cadenaPropietario = "lospropietarios.dat";
+        String cadenaBarrio = "losbarrios.dat";
+        String cadenaCiudad = "lasciudades.dat";
+        String cadenaCasas = "miscasas.dat";
+        String cadenaDepartamentos = "losdepartamentos.dat";
+        
         boolean b = true;
         while (b) {
             System.out.println("----------------------------------------------");
@@ -25,63 +33,57 @@ public class Ejecutor {
             System.out.println("4. Ver Lista de barrios");
             System.out.println("5. Agregar ciudad");
             System.out.println("6. Ver Lista de ciudades");
-            System.out.println("7. Agregar constructora");
-            System.out.println("8. Ver Lista de constructoras");
-            System.out.println("9. Agregar casa");
-            System.out.println("10. Ver Lista de casas");
-            System.out.println("11. Agregar departamento");
-            System.out.println("12. Ver Lista de departamentos");
+            System.out.println("7. Agregar casa");
+            System.out.println("8. Ver Lista de casas");
+            System.out.println("9. Agregar departamento");
+            System.out.println("10. Ver Lista de departamentos");
             System.out.println("0. Salir");
             System.out.println("-------------------------------------------------");
 
             System.out.print("Ingrese la opción deseada: ");
-            int opcion = sc.nextInt();
-            switch (opcion) {
+            int op = sc.nextInt();
+
+            switch (op) {
                 case 1:
-                    ListaPropietario();
+                    ListaPropietario(cadenaPropietario);
                     break;
                 case 2:
-                    inmobiliaria.escribirPropietario();
+                    LeerPropietarios(cadenaPropietario);
                     break;
                 case 3:
-                    ListaBarrio();
+                    ListaBarrio(cadenaBarrio);
                     break;
                 case 4:
-                    inmobiliaria.escribirBarrios();
+                    LeerBarrio(cadenaBarrio);
                     break;
                 case 5:
-                    ListaCiudad();
+                    ListaCiudad(cadenaCiudad);
                     break;
                 case 6:
-                    inmobiliaria.escribirCiudad();
+                    LeerCiudad(cadenaCiudad);
                     break;
                 case 7:
-                    ListaConstructora();
-                    break;
+
+                    
                 case 8:
-                    inmobiliaria.escribirConstructora();
+                    verCiudades(cadenaCiudad);
                     break;
                 case 9:
-                    ListaCasa();
+                    verCasas(cadenaCasas);
                     break;
                 case 10:
-                    inmobiliaria.escribirCasa();
+                    verDepartamentos(cadenaDepartamentos);
                     break;
                 case 11:
-                    ListaDepartamento();
-                    break;
-                case 12:
-                    inmobiliaria.escribirDepartamento();
-                    break;
-                case 0:
                     b = false;
                     break;
                 default:
-                    System.out.println("Ingrese una opción válida");
+                    System.out.println("Opción no válida.");
             }
         }
     }
-    private static void ListaPropietario() {
+    
+    public static void ListaPropietario(String archi) {
         System.out.println("________Agregar Propietario________");
         System.out.print("Ingrese el nombre del propietario: ");
         String nombre = sc.next();
@@ -91,13 +93,25 @@ public class Ejecutor {
         String identificacion = sc.next();
 
         Propietario propietario = new Propietario(nombre, apellido, identificacion);
-        inmobiliaria.ListaPropietarios(propietario);
-        inmobiliaria.ArchivoPropietarios();
 
-        System.out.println("Propietario agregado exitosamente.");
+        EscrituraPropietario escritura = new EscrituraPropietario(archi);
+        escritura.establecerPropietario(propietario);
+        escritura.establecerSalida();
     }
 
-    private static void ListaBarrio() {
+    public static void LeerPropietarios(String nombreArchivo) {
+        LecturaPropietario lec = new LecturaPropietario(nombreArchivo);
+        lec.establecerPropietario();
+        ArrayList<Propietario> pro = lec.obtenerPropietario();
+
+        System.out.println("Propietario registrado:");
+            for (Propietario propietario : pro) {
+                System.out.println("Nombre: " + propietario.obtenerNombres() + " \nApellido: " + propietario.obtenerApellidos() + " \nIdentificación: " 
+                        + propietario.obtenerIdentificacion());
+            }
+    }
+
+    public static void ListaBarrio(String archi) {
         System.out.println("________Agregar Barrio________");
         System.out.print("Ingrese el nombre del barrio: ");
         String nombre = sc.next();
@@ -106,110 +120,97 @@ public class Ejecutor {
         String referencia = sc.next();
 
         Barrio barrio = new Barrio(nombre, referencia);
-        inmobiliaria.ListaBarrio(barrio);
-        inmobiliaria.ArchivoBarrio();
 
-        System.out.print("Barrio agregado exitosamente.");
+        EscrituraBarrio escrituraBarrio = new EscrituraBarrio(archi);
+        escrituraBarrio.establecerBarrio(barrio);
+        escrituraBarrio.establecerSalida();
     }
 
-    private static void ListaCiudad() {
+    public static void LeerBarrio(String archi) {
+        LecturaBarrio lec = new LecturaBarrio(archi);
+        lec.establecerBarrio();
+        ArrayList<Barrio> barrios = lec.obtenerBarrio();
+
+            System.out.println("Barrio registrado:");
+                for (Barrio barrio : barrios) {
+                    System.out.println("Nombre del Barrio: " + barrio.obtenerNombreBarrio() + "\nReferencia: " 
+                            + barrio.obtenerReferencia());
+ 
+    }
+                
+     public static void ListaCiudad(String archi) {
         System.out.println("_______Agregar Ciudad________");
         System.out.print("Ingrese el nombre de la ciudad: ");
         String nombreCiudad = sc.next();
         System.out.print("Ingrese el nombre de la provincia: ");
         String nombreProvincia = sc.next();
 
-        Ciudad ciudad = new Ciudad(nombreCiudad, nombreProvincia);
-        inmobiliaria.ListaCiudad(ciudad);
-        inmobiliaria.ArchivoCiudad();
+        Ciudad ciudad = new Ciudad(nombreCiudad, nombreProvincia);           
 
-        System.out.println("Ciudad agregada exitosamente.");
+        EscrituraCiudad escritura = new EscrituraCiudad(archi);
+        escritura.establecerCiudad(ciudad);
+        escritura.establecerSalida();
     }
 
-    private static void ListaConstructora() {
-        System.out.println("________Agregar Constructora________");
-        System.out.print("Ingrese el nombre de la constructora: ");
-        String nombre = sc.next();
-        System.out.print("Ingrese el ID de la empresa: ");
-        String idEmpresa = sc.next();
+    public static void LeerCiudad(String Archi) {
+        LecturaCiudad lectura = new LecturaCiudad(Archi);
+        lectura.establecerCiudad();
+        ArrayList<Ciudad> ciudades = lectura.obtenerCiudad();
 
-        Constructora constructora = new Constructora(nombre, idEmpresa);
-        inmobiliaria.ListaConstructora(constructora);
-        inmobiliaria.ArchivoConstructora();
-
-        System.out.println("Constructora agregada exitosamente.");
+            System.out.println("Ciudade registrada:");
+                for (Ciudad ciudad : ciudades) {
+                    System.out.println("Nombre de la ciudad: " + ciudad.obtenerNombreCiudad() + "\nNombre de la Provincia: " 
+                            + ciudad.obtenerNombreProvincia());
+                }
     }
 
-        private static void ListaCasa() {
-        System.out.println("________Agregar Casa________");
-        System.out.print("Ingrese el nombre del propietario: ");
-        String Nombre = sc.next();
-        System.out.print("Igrese el apellido del propietario: ");
-        String apellido = sc.next();
-        System.out.print("Ingrese la identificación del propietario: ");
-        String identificacionPropietario = sc.next();
-        System.out.print("Ingrese el precio por metro cuadrado: ");
+    public static void ListaCasa(String Archi, String archivoPro, String archivoCiu) {
+        System.out.print("Ingrese identificación del propietario: ");
+        String identificacion = sc.nextLine();
+
+        LecturaPropietario lecturaPropietario = new LecturaPropietario(archivoPro);
+        lecturaPropietario.establecerPropietario();
+        Propietario propietario;
+        
+        for (Propietario p : lecturaPropietario.obtenerPropietario()) {
+            if (p.obtenerIdentificacion().equals(identificacion)) {
+                propietario = p;
+                break;
+            }
+        }
+        if (propietario == null) {
+            System.out.println("Propietario no encontrado");
+        }
+
+        System.out.print("Ingrese nombre de la ciudad: ");
+        String nombreCiu = sc.nextLine();
+
+        LecturaCiudad lecturaCiudad = new LecturaCiudad(archivoCiu);
+        lecturaCiudad.establecerCiudad();
+        Ciudad ciudad ;
+        for (Ciudad ciu : lecturaCiudad.obtenerCiudad()) {
+            if (ciu.obtenerNombreCiudad().equalsIgnoreCase(nombreCiu)) {
+                ciudad = ciu;
+                break;
+            }
+        }
+        if (ciudad == null) {
+            System.out.println("Ciudad no encontrada.");
+            return;
+        }
+
+        System.out.print("Ingrese precio por metro cuadrado: ");
         double precioMetroCuadrado = sc.nextDouble();
-        System.out.print("Ingrese el número de metros cuadrados: ");
-        double metrosCuadrados = sc.nextDouble();
-        System.out.print("Ingrese el nombre del barrio: ");
-        String nombreBarrio = sc.next();
-        System.out.print("Ingrese la referencia del barrio: ");
-        String referencia = sc.next();
-        System.out.print("Ingrese el nombre de la ciudad: ");
-        String nombreCiudad = sc.next();
-        System.out.print("Ingrese el nombre de la provincia: ");
-        String nombreProvincia = sc.next();
-        System.out.print("Ingrese el nombre de la constructora: ");
-        String nombre = sc.next();
-        System.out.print("Ingrese el ID de la empresa constructora: ");
-        String idEmpresaConstructora = sc.next();
-        System.out.print("Ingrese el número de cuartos: ");
-        int numeroCuartos = sc.nextInt();
-        double CostoFinal = metrosCuadrados * precioMetroCuadrado;
+        System.out.print("Ingrese número de metros cuadrados: ");
+        double numeroMetrosCuadrados = sc.nextDouble();
 
-        Casa casa = new Casa(Nombre,apellido,identificacionPropietario, nombreBarrio,referencia, nombreCiudad,nombreProvincia,nombre, idEmpresaConstructora,metrosCuadrados, precioMetroCuadrado, numeroCuartos,CostoFinal);
-        inmobiliaria.ListaCasa(casa);
-        inmobiliaria.ArchivoCasa();
+        Casa casa = new Casa(propietario, precioMetroCuadrado, numeroMetrosCuadrados, ciudad, 0);
+        casa.calcularCostoFinal();
 
-        System.out.println("Casa agregada exitosamente.");
-    }
-
-    private static void ListaDepartamento() {
-        System.out.println("________Agregar Departamento________");
-        System.out.print("Ingrese el nombre del propietario: ");
-        String Nombre = sc.next();
-        System.out.print("Igrese el apellido del propietario: ");
-        String apellido = sc.next();
-        System.out.print("Ingrese la identificación del propietario: ");
-        String identificacionPropietario = sc.next();
-        System.out.print("Ingrese el precio por metro cuadrado: ");
-        double precioMetroCuadrado = sc.nextDouble();
-        System.out.print("Ingrese el número de metros cuadrados: ");
-        double metrosCuadrados = sc.nextDouble();
-        System.out.print("Ingrese el valor de la alícuota mensual: ");
-        double valorAlicuotaMensual = sc.nextDouble();
-        System.out.print("Ingrese el nombre del barrio: ");
-        String nombreBarrio = sc.next();
-        System.out.print("Ingrese la referencia del barrio: ");
-        String referencia = sc.next();
-        System.out.print("Ingrese el nombre de la ciudad: ");
-        String nombreCiudad = sc.next();
-        System.out.print("Ingrese el nombre de la provincia: ");
-        String nombreProvincia = sc.next();
-        System.out.print("Ingrese el nombre del edificio: ");
-        String edificio = sc.next();
-        System.out.print("Ingrese el nombre de la constructora: ");
-        String nombre = sc.next();
-        System.out.print("Ingrese el ID de la empresa constructora: ");
-        String idEmpresaConstructora = sc.next();
-        double CostoFinal = (metrosCuadrados * precioMetroCuadrado) + (valorAlicuotaMensual * 12);
-
-        Departamento departamento = new Departamento(Nombre,apellido,identificacionPropietario, nombreBarrio,referencia, nombreCiudad,nombreProvincia,edificio,
-                idEmpresaConstructora, metrosCuadrados, precioMetroCuadrado,nombre, valorAlicuotaMensual,CostoFinal);
-        inmobiliaria.ListaDepartamento(departamento);
-        inmobiliaria.ArchivoDepartamento();
-
-        System.out.println("Departamento agregado exitosamente.");
+        paquete07.EscrituraCasa escrituraCasa = new paquete07.EscrituraCasa(Archi);
+        escrituraCasa.establecerCasas(casa);
+        escrituraCasa.establecerSalida();
     }
 }
+
+   
