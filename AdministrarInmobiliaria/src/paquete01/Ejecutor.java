@@ -5,23 +5,25 @@ import paquete02.Propietario;
 import paquete03.Barrio;
 import paquete04.Ciudad;
 import paquete06.Casa;
-import paquete07.EscrituraPropietario;
-import paquete07.
 
 import paquete07.EscrituraBarrio;
+import paquete07.EscrituraCasa;
 import paquete07.EscrituraCiudad;
+import paquete07.EscrituraPropietario;
 import paquete07.LecturaBarrio;
+import paquete07.LecturaCasa;
 import paquete07.LecturaCiudad;
 import paquete07.LecturaPropietario;
+
 public class Ejecutor {
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        String cadenaPropietario = "lospropietarios.dat";
-        String cadenaBarrio = "losbarrios.dat";
-        String cadenaCiudad = "lasciudades.dat";
-        String cadenaCasas = "miscasas.dat";
-        String cadenaDepartamentos = "losdepartamentos.dat";
+        String cadenaPro = "lospropietarios.dat";
+        String cadenaBa = "losbarrios.dat";
+        String cadenaCiu = "lasciudades.dat";
+        String cadenaCa = "miscasas.dat";
+        String cadenaDepar = "losdepartamentos.dat";
         
         boolean b = true;
         while (b) {
@@ -45,31 +47,31 @@ public class Ejecutor {
 
             switch (op) {
                 case 1:
-                    ListaPropietario(cadenaPropietario);
+                    ListaPropietario(cadenaPro);
                     break;
                 case 2:
-                    LeerPropietarios(cadenaPropietario);
+                    LeerPropietarios(cadenaPro);
                     break;
                 case 3:
-                    ListaBarrio(cadenaBarrio);
+                    ListaBarrio(cadenaBa);
                     break;
                 case 4:
-                    LeerBarrio(cadenaBarrio);
+                    LeerBarrio(cadenaBa);
                     break;
                 case 5:
-                    ListaCiudad(cadenaCiudad);
+                    ListaCiudad(cadenaCiu);
                     break;
                 case 6:
-                    LeerCiudad(cadenaCiudad);
+                    LeerCiudad(cadenaCiu);
                     break;
                 case 7:
-
-                    
+                    ListaCasa(cadenaCa, cadenaPro, cadenaCiu);
+                    break;
                 case 8:
-  
+                    LeerCasa(cadenaCa);
                     break;
                 case 9:
-        
+                    
                     break;
                 case 10:
                
@@ -204,12 +206,32 @@ public class Ejecutor {
         System.out.print("Ingrese número de metros cuadrados: ");
         double numeroMetrosCuadrados = sc.nextDouble();
 
-        Casa casa = new Casa(propietario, precioMetroCuadrado, numeroMetrosCuadrados, ciudad, 0);
+        Casa casa = new Casa(propietario, precioMetroCuadrado, numeroMetrosCuadrados, ciudad, 5);
         casa.calcularCostoFinal();
 
-        paquete07.EscrituraCasa escrituraCasa = new paquete07.EscrituraCasa(Archi);
+        EscrituraCasa escrituraCasa = new EscrituraCasa(Archi);
         escrituraCasa.establecerCasas(casa);
         escrituraCasa.establecerSalida();
+    }
+    
+    public static void LeerCasa(String Archi) {
+        LecturaCasa lec = new LecturaCasa(Archi);
+        lec.establecerCasa();
+        ArrayList<Casa> casas = lec.obtenerCasa();
+
+        System.out.println("Presentacion de Lista de Casas:");
+                for (Casa casa : casas) {
+                    System.out.println("Nombre: " + casa.obtenerPropietario().obtenerNombres() + "\nApellido: " + casa.obtenerPropietario().obtenerApellidos() + "\nIdentificacion: " + casa.getPropietario().getIdentificacion());
+                    System.out.println("Precio por metro Cuadrado: " + casa.obtenerPrecioMetroCuadrado());
+                    System.out.println("Numero de metros Cuadrados: " + casa.obtenerNumeroMetrosCuadrado());                    
+                    System.out.println("Ciudad: " + casa.obtenerCiudad().obtenerNombreCiudad() + "\nProvincia: " + casa.obtenerCiudad().obtenerNombreProvincia());
+                    System.out.println("Número de cuartos: " + casa.ObtenerNumeroCuartos());
+                    System.out.println("Costo final: " + casa.obtenerCostoFinal());
+        }
+    }
+    
+    public static void ListarDepartamento() {
+        
     }
 }
 
