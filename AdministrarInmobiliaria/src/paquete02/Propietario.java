@@ -1,17 +1,12 @@
 package paquete02;
 
-import java.io.*;
-import java.util.Formatter;
-import java.util.Scanner;
+import java.io.Serializable;
 
-public class Propietario implements Serializable{
+public class Propietario implements Serializable {
+
     private String nombres;
     private String apellidos;
     private String identificacion;
-
-    public Propietario(){
-
-    }
 
     public Propietario(String nombres, String apellidos, String identificacion) {
         this.nombres = nombres;
@@ -19,34 +14,35 @@ public class Propietario implements Serializable{
         this.identificacion = identificacion;
     }
 
-    public String getNombres() {
-
-        return nombres;
-    }
-
-    public String getApellidos() {
-
-        return apellidos;
-    }
-
-    public String getIdentificacion() {
-
-        return identificacion;
-    }
-
-    public void setNombres(String nombres) {
-
+    public void establecerNombres(String nombres) {
         this.nombres = nombres;
     }
 
-    public void setApellidos(String apellidos) {
-
+    public void establecerApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
 
-    public void setIdentificacion(String identificacion) {
-
+    public void establecerIdeentificaion(String identificacion) {
         this.identificacion = identificacion;
     }
+
+    public String obtenerNombres() {
+        return nombres;
+    }
+
+    public String obtenerApellidos() {
+        return apellidos;
+    }
+
+    public String obtenerIdentificacion() {
+        return identificacion;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s - %s", 
+                obtenerNombres(), obtenerApellidos(), obtenerIdentificacion());
+    }
 }
+
 
