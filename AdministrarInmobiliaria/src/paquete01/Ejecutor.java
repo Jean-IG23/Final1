@@ -233,6 +233,10 @@ public class Ejecutor {
     public static void ListarDepartamento() {
         
     }
+
+        public static void LeerDepartamento() {
+        
+    }
 }
 
    
