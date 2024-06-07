@@ -35,7 +35,7 @@ public class LecturaCasa {
     public void establecerCasa() {
         casas = new ArrayList<>();
         File file = new File(obtenerNombreArchivo());
-        if (file.exists()) {
+        if (file.exists() && entrada != null) {
             while (true) {
                 try {
                     Casa ca = (Casa) entrada.readObject();
