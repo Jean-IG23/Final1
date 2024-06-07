@@ -14,8 +14,9 @@ public class EscrituraCasa{
     private Casa casas;
     
     public EscrituraCasa(String nombreArc) {
-        this.nombreArchivo = nombreArchivo;
+    this.nombreArchivo = nombreArc; 
     }
+
 
     public void establecerNombreArchivo(String nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
@@ -26,18 +27,19 @@ public class EscrituraCasa{
     }
 
     public void establecerSalida() {
-        File f = new File(nombreArchivo);
-        try {
-            if (f.exists() == false) {
-                salida = new AppendingObjectOutputStream( new FileOutputStream (nombreArchivo));
-            }
-            salida = new AppendingObjectOutputStream( new FileOutputStream (nombreArchivo, true));
-            salida.writeObject(casas);
-            salida.close();
-        } catch (IOException ex) {
-            System.out.println("Error al escribir en el archivo");
+    File f = new File(nombreArchivo);
+    try {
+        if (!f.exists()) { 
+            salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
+        } else {
+            salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
         }
+        salida.writeObject(casas);
+        salida.close();
+    } catch (IOException ex) {
+        System.out.println("Error al escribir en el archivo");
     }
+}
     
     public String obtenerNombreArchivo() {
         return nombreArchivo;
