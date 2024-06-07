@@ -33,10 +33,11 @@ public class EscrituraCiudad {
     public void establecerSalida() {
         File file = new File(nombreArchivo);
         try {
-            if (file.exists() == false) {
-                salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo));
+                        if (file.exists() && file.length() > 0) {
+                salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
+            } else {
+                salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
             }
-            salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
             salida.writeObject(ciudad);
             salida.close();
         } catch (IOException ex) {
