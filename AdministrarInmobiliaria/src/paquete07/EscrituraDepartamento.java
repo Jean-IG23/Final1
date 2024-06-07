@@ -31,14 +31,16 @@ public class EscrituraDepartamento {
     public void establecerSalida() {
         File file = new File(nombreArchivo);
         try {
-            if (file.exists() == false) {
-                salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo));
+            if (!file.exists()) {
+                salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
+            } else {
+                salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
             }
-            salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
-            salida.writeObject(departamento); 
-            salida.close();
+            salida.writeObject(departamento);
         } catch (IOException ex) {
-            System.out.println("Error al escribir en el archivo");
+            System.out.println("Error al escribir en el archivo: " + ex);
+        } finally {
+            cerrarArchivo();
         }
     }
     
@@ -60,7 +62,3 @@ public class EscrituraDepartamento {
         } 
     }
 }
-    
-
-
-
