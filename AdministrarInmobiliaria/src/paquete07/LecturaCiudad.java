@@ -37,7 +37,7 @@ public class LecturaCiudad {
     public void establecerCiudad() {
         ciudad = new ArrayList<>();
         File file = new File(obtenerNombreArchivo());
-        if (file.exists()) {
+        if (file.exists() && entrada != null) {
 
             while (true) {
                 try {
