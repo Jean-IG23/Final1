@@ -37,7 +37,7 @@ public class LecturaDepartamento {
     public void establecerDepa() {
         departamento = new ArrayList<>();
         File file = new File(obtenerNombreArchivo());
-        if (file.exists()) {
+        if (file.exists() && entrada != null) {
             while (true) {
                 try {
                     Departamento dep = (Departamento) entrada.readObject();
