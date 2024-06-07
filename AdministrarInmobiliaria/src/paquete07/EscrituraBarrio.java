@@ -27,10 +27,11 @@ public class EscrituraBarrio {
     public void establecerSalida() {
         File file = new File(nombreArchivo);
         try {
-            if (file.exists() == false) {
-                salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo));
-            }
+                        if (file.exists() && file.length() > 0) {
                 salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
+            } else {
+                salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
+            }
                 salida.writeObject(barrio); 
                 salida.close();
         } catch (IOException ex) {
