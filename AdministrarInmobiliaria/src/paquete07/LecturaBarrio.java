@@ -5,51 +5,52 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import paquete03.Barrio;
 import paquete05.AppendingObjectInputStream;
-
-public class LecturaBarrio {
-    
+import paquete06.Casa;
+/**
+ *
+ * @author jeani
+ */
+public class LecturaCasa {
     private ObjectInputStream entrada;
-    private ArrayList<Barrio> barrio;
+    private ArrayList<Casa> casas;
     private String nombreArchivo;
 
-    public LecturaBarrio(String n) {
+    public LecturaCasa(String n) {
         nombreArchivo = n;
         File file = new File(nombreArchivo);
         if (file.exists()) {
-            try{
+            try {
                 entrada = new AppendingObjectInputStream(new FileInputStream(n));
-            }
-            catch (IOException io) {
+            } catch (IOException io) {
                 System.out.println("Error al abrir el archivo" + io);
-            }
+            } 
         }
     }
 
-    public void establecerNombreArchivo(String n) {
-        nombreArchivo = n;
+    public void establecerNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
     }
 
-    public void establecerBarrio() {
-        barrio = new ArrayList<>();
+    public void establecerCasa() {
+        casas = new ArrayList<>();
         File file = new File(obtenerNombreArchivo());
-        if (file.exists()) {
+        if (file.exists() && entrada != null) {
             while (true) {
                 try {
-                    Barrio ba = (Barrio) entrada.readObject();
-                    barrio.add(ba);
+                    Casa ca = (Casa) entrada.readObject();
+                    casas.add(ca);
                 } catch (IOException e) {
-                    System.out.println("Error al leer el archivo: " + e);
+                    System.out.println(" Error al leer el archivo: " + e);
                 } catch (Exception e) {
-                    System.out.println("No hay datos en el archivo: " + e);
+                    System.out.println(" No hay datos en el archivo: " + e);
                 }
             }
         }
     }
 
-    public ArrayList<Barrio> obtenerBarrio() {
-        return barrio;
+    public ArrayList<Casa> obtenerCasa() {
+        return casas;
     }
 
     public String obtenerNombreArchivo() {
@@ -58,13 +59,13 @@ public class LecturaBarrio {
 
     @Override
     public String toString() {
-        String cadena = "Lista de Propietarios\n";
-        for (int i = 0; i < obtenerBarrio().size(); i++) {
-            Barrio barri = obtenerBarrio().get(i);
-            cadena = String.format("%s(%d) %s-%s\n", cadena,
-                    i + 1,
-                    barri.obtenerNombreBarrio(),
-                    barri.obtenerReferencia());
+        String cadena = "Lista de casas \n";
+        for (int i = 0; i < obtenerCasa().size(); i++) {
+            Casa c = obtenerCasa().get(i);
+            cadena = String.format("%s(%d) %s-%s\n", cadena, i + 1,
+                    c.obtenerPropietario(),
+                    c.obtenerPrecioMetroCuadrado(),c.obtenerNumeroMetrosCuadrado(),c.obtenerCostoFinal(),
+                    c.obtenerCiudad(),c.ObtenerNumeroCuartos());
         }
         return cadena;
     }
@@ -74,7 +75,7 @@ public class LecturaBarrio {
             if (entrada != null) {
                 entrada.close();
             }
-        } catch (IOException io) {
+        } catch (IOException ioException) {
             System.out.println("Error");
         }
     }
