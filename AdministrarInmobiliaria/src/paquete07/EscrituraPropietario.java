@@ -7,10 +7,6 @@ import java.io.ObjectOutputStream;
 import paquete02.Propietario;
 import paquete05.AppendingObjectOutputStream;
 
-/**
- *
- * @author jeani
- */
 public class EscrituraPropietario {
 
     private String nombreArchivo;
@@ -21,7 +17,7 @@ public class EscrituraPropietario {
         this.nombreArchivo = nombreArchivo;
     }
 
-    public void establecerNombreArchivo(String nombreArchivo){
+    public void establecerNombreArchivo(String nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
     }
 
@@ -32,23 +28,23 @@ public class EscrituraPropietario {
     public void establecerSalida() {        
         File file = new File(nombreArchivo);
         try {
-            if (file.exists()) {
-                salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
-            } else {
+            if (file.exists() && file.length() > 0) {
                 salida = new AppendingObjectOutputStream(new FileOutputStream(nombreArchivo, true));
+            } else {
+                salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
             }
             salida.writeObject(propietario);
             salida.close();
         } catch (IOException ex) {
-            System.out.println("Error al escribir en el archivo");
+            System.out.println("Error al escribir en el archivo: " + ex);
         }
     }
 
-    public String obtenerNombreArchivo(){
+    public String obtenerNombreArchivo() {
         return nombreArchivo;
     }
 
-    public ObjectOutputStream obtenerSalida(){
+    public ObjectOutputStream obtenerSalida() {
         return salida;
     }
 
@@ -58,7 +54,7 @@ public class EscrituraPropietario {
                 salida.close();
             }
         } catch (IOException ioException) {
-            System.out.println("Error");
+            System.out.println("Error al cerrar el archivo: " + ioException);
         }
     }
 }
